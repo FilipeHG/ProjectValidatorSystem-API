@@ -31,6 +31,13 @@ export class UpdateProjectUseCase {
     const previsaoDeTermino = input.previsaoDeTermino ? new Date(input.previsaoDeTermino) : project.previsaoDeTermino;
     const orcamentoTotal = input.orcamentoTotal !== undefined ? input.orcamentoTotal : project.orcamentoTotal;
     
+    if (previsaoDeTermino < dataDeInicio) {
+      throw new HttpException({ 
+        title: 'Validation Error', 
+        message: 'A previsão de término não pode ser anterior à data de início.' 
+      }, HttpStatus.BAD_REQUEST);
+    }
+    
     if (input.dataDeInicio || input.previsaoDeTermino || input.orcamentoTotal !== undefined) {
       updateData.riscoCalculado = this.riskCalculationService.calculateRisk(
         orcamentoTotal,

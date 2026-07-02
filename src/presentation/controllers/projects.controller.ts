@@ -11,7 +11,10 @@ import { createProjectSchema, CreateProjectDto, updateProjectSchema, UpdateProje
 import { ProjectStatus } from '../../domain/enums/project-status.enum';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
+import { ApiBody, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiTags('Projects')
+@ApiBearerAuth()
 @Controller('projects')
 @UseGuards(JwtAuthGuard)
 export class ProjectsController {
@@ -26,6 +29,18 @@ export class ProjectsController {
   ) {}
 
   @Post()
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        nome: { type: 'string', example: 'Projeto Alpha' },
+        dataDeInicio: { type: 'string', format: 'date-time', example: '2026-08-01T00:00:00.000Z' },
+        previsaoDeTermino: { type: 'string', format: 'date-time', example: '2026-12-31T00:00:00.000Z' },
+        orcamentoTotal: { type: 'number', example: 150000 },
+        descricao: { type: 'string', example: 'Descrição detalhada do projeto' }
+      }
+    }
+  })
   @UsePipes(new ZodValidationPipe(createProjectSchema))
   async create(@Body() createProjectDto: CreateProjectDto) {
     return this.createProjectUseCase.execute(createProjectDto);
@@ -42,6 +57,18 @@ export class ProjectsController {
   }
 
   @Patch(':id')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        nome: { type: 'string', example: 'Projeto Alpha Editado' },
+        dataDeInicio: { type: 'string', format: 'date-time', example: '2026-08-01T00:00:00.000Z' },
+        previsaoDeTermino: { type: 'string', format: 'date-time', example: '2026-12-31T00:00:00.000Z' },
+        orcamentoTotal: { type: 'number', example: 200000 },
+        descricao: { type: 'string', example: 'Nova descrição' }
+      }
+    }
+  })
   @UsePipes(new ZodValidationPipe(updateProjectSchema))
   async update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
     return this.updateProjectUseCase.execute(id, updateProjectDto);
@@ -54,6 +81,14 @@ export class ProjectsController {
   }
 
   @Patch(':id/status')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        status: { type: 'string', example: 'Aprovado' }
+      }
+    }
+  })
   @UsePipes(new ZodValidationPipe(changeStatusSchema))
   async changeStatus(@Param('id') id: string, @Body() changeStatusDto: ChangeStatusDto) {
     return this.changeProjectStatusUseCase.execute(id, changeStatusDto.status as ProjectStatus);

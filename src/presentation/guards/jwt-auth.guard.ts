@@ -31,7 +31,11 @@ export class JwtAuthGuard implements CanActivate {
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
+    const authHeader = request.headers.authorization;
+    if (!authHeader) return undefined;
+    
+    // Some API clients (like Swagger) automatically add 'Bearer', causing users to accidentally send 'Bearer Bearer <token>'
+    const match = authHeader.match(/Bearer\s+(?:Bearer\s+)?(\S+)/i);
+    return match ? match[1] : undefined;
   }
 }

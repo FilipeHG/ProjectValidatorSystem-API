@@ -242,7 +242,7 @@ npm run start:dev
 Swagger should be available at:
 
 ```text id="q2f8w6"
-/api/docs
+/swagger
 ```
 
 ---
