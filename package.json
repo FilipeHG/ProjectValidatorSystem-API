@@ -1,0 +1,41 @@
+{
+  "name": "projectvalidatorsystem-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Project Validator System - API para gerenciamento simplificado de projetos",
+  "main": "dist/main.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "db:introspect": "drizzle-kit introspect --config=drizzle.config.ts",
+    "db:generate": "drizzle-kit generate --config=drizzle.config.ts",
+    "db:migrate": "drizzle-kit migrate --config=drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config=drizzle.config.ts",
+    "test": "echo \"Tests will be configured by the NestJS project generation\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FilipeHG/ProjectValidatorSystem-API.git"
+  },
+  "keywords": [],
+  "author": "Filipe Henrique Gonçalves",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FilipeHG/ProjectValidatorSystem-API/issues"
+  },
+  "homepage": "https://github.com/FilipeHG/ProjectValidatorSystem-API#readme",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "postgres": "^3.4.9"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.10"
+  }
+}
