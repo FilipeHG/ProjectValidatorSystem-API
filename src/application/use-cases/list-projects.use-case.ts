@@ -5,8 +5,8 @@ import { Projeto } from '../../domain/entities/projeto.entity';
 export interface ListProjectsOutput {
   data: Projeto[];
   total: number;
-  page: number;
-  limit: number;
+  page?: number;
+  limit?: number;
 }
 
 @Injectable()
@@ -16,13 +16,12 @@ export class ListProjectsUseCase {
     private readonly projectRepository: IProjectRepository,
   ) {}
 
-  async execute(page: number = 1, limit: number = 10): Promise<ListProjectsOutput> {
+  async execute(page?: number, limit?: number): Promise<ListProjectsOutput> {
     const { data, total } = await this.projectRepository.findAll(page, limit);
     return {
       data,
       total,
-      page,
-      limit,
+      ...(page !== undefined && limit !== undefined ? { page, limit } : {}),
     };
   }
 }

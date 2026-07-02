@@ -333,14 +333,15 @@ Mandatory reading order:
 9. docs/projects/ProjectValidatorSystem/Project-ProjectValidatorSystem-Database-Standards.md
 10. docs/projects/ProjectValidatorSystem/Project-ProjectValidatorSystem-Testing-Standards.md
 11. docs/projects/ProjectValidatorSystem/Project-ProjectValidatorSystem-Deployment-Guide.md
-12. docs/projects/ProjectValidatorSystem/adrs/ADR-001-Official-Architecture.md
-13. docs/projects/ProjectValidatorSystem/adrs/ADR-002-Technology-Stack.md
-14. docs/projects/ProjectValidatorSystem/adrs/ADR-003-Drizzle-ORM.md
-15. docs/projects/ProjectValidatorSystem/adrs/ADR-004-Validation-Strategy.md
-16. docs/projects/ProjectValidatorSystem/adrs/ADR-005-JWT-Authentication.md
-17. docs/projects/ProjectValidatorSystem/adrs/ADR-006-AI-Integration.md
-18. docs/projects/ProjectValidatorSystem/adrs/ADR-007-Testing-Strategy.md
-19. docs/projects/ProjectValidatorSystem/adrs/ADR-008-Error-Handling.md
+12. docs/projects/ProjectValidatorSystem/integrations/Project-ProjectValidatorSystem-OpenAI-Integration.md
+13. docs/projects/ProjectValidatorSystem/adrs/ADR-001-Official-Architecture.md
+14. docs/projects/ProjectValidatorSystem/adrs/ADR-002-Technology-Stack.md
+15. docs/projects/ProjectValidatorSystem/adrs/ADR-003-Drizzle-ORM.md
+16. docs/projects/ProjectValidatorSystem/adrs/ADR-004-Validation-Strategy.md
+17. docs/projects/ProjectValidatorSystem/adrs/ADR-005-JWT-Authentication.md
+18. docs/projects/ProjectValidatorSystem/adrs/ADR-006-AI-Integration.md
+19. docs/projects/ProjectValidatorSystem/adrs/ADR-007-Testing-Strategy.md
+20. docs/projects/ProjectValidatorSystem/adrs/ADR-008-Error-Handling.md
 
 Do not start implementation before reading every document.
 

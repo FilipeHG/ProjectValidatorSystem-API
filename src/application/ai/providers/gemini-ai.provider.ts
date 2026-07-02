@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { AiProviderException } from '../exceptions/infrastructure.exception';
+import { AiProvider } from '../contracts/ai-provider.interface';
+import { AiAnalysisResult } from '../dto/ai-analysis-result.dto';
+import { AiProviderException } from '../../../infrastructure/exceptions/infrastructure.exception';
 
 @Injectable()
-export class AiClient {
+export class GeminiAiProvider implements AiProvider {
   private readonly genAI: GoogleGenerativeAI;
   
   constructor(private configService: ConfigService) {
@@ -15,10 +17,11 @@ export class AiClient {
     this.genAI = new GoogleGenerativeAI(apiKey);
   }
 
-  async generateStructuredResponse(prompt: string, schema: any): Promise<any> {
+  async analyzeProject(prompt: string): Promise<AiAnalysisResult> {
     try {
+      const modelName = this.configService.get<string>('GEMINI_MODEL') || "gemini-2.0-flash";
       const model = this.genAI.getGenerativeModel({
-        model: "gemini-1.5-flash",
+        model: modelName,
         generationConfig: {
           responseMimeType: "application/json",
         }
@@ -27,8 +30,11 @@ export class AiClient {
       const result = await model.generateContent(prompt);
       const text = result.response.text();
       return JSON.parse(text);
-    } catch (error) {
-      throw new AiProviderException(`AI request failed: ${error instanceof Error ? error.message : 'Unknown'}`);
+    } catch (error: any) {
+      if (error.status === 429) {
+        throw new AiProviderException('AI Quota Exceeded');
+      }
+      throw new AiProviderException(`AI request failed: ${error.message}`);
     }
   }
 }

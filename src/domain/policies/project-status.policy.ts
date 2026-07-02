@@ -10,7 +10,6 @@ export class ProjectStatusPolicy {
     const forbiddenStatuses = [
       ProjectStatus.EM_ANDAMENTO,
       ProjectStatus.ENCERRADO,
-      ProjectStatus.CANCELADO,
     ];
     
     if (forbiddenStatuses.includes(projeto.status)) {
@@ -22,10 +21,22 @@ export class ProjectStatusPolicy {
     if (currentStatus === nextStatus) {
       return;
     }
-    
-    // Terminal statuses
-    if (currentStatus === ProjectStatus.ENCERRADO || currentStatus === ProjectStatus.CANCELADO) {
-      throw new InvalidStatusTransitionException(`Cannot transition from ${currentStatus} to ${nextStatus}. Status is terminal.`);
+
+    if (nextStatus === ProjectStatus.CANCELADO) {
+      return;
+    }
+
+    const allowedTransitions: Record<ProjectStatus, ProjectStatus[]> = {
+      [ProjectStatus.EM_ANALISE]: [ProjectStatus.APROVADO],
+      [ProjectStatus.APROVADO]: [ProjectStatus.EM_ANDAMENTO],
+      [ProjectStatus.EM_ANDAMENTO]: [ProjectStatus.ENCERRADO],
+      [ProjectStatus.ENCERRADO]: [],
+      [ProjectStatus.CANCELADO]: [],
+    };
+
+    const allowed = allowedTransitions[currentStatus] || [];
+    if (!allowed.includes(nextStatus)) {
+      throw new InvalidStatusTransitionException(`Transição de status não permitida: de ${currentStatus} para ${nextStatus}.`);
     }
   }
 }

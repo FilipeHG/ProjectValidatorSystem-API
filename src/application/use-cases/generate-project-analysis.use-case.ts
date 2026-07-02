@@ -1,6 +1,7 @@
 import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import { PROJECT_REPOSITORY, IProjectRepository } from '../repositories/project.repository.interface';
-import { AiAnalysisService, AiAnalysisResponse } from '../../infrastructure/ai/ai-analysis.service';
+import { AiAnalysisService } from '../ai/services/ai-analysis.service';
+import { AiAnalysisResult } from '../ai/dto/ai-analysis-result.dto';
 
 @Injectable()
 export class GenerateProjectAnalysisUseCase {
@@ -10,7 +11,7 @@ export class GenerateProjectAnalysisUseCase {
     private readonly aiAnalysisService: AiAnalysisService,
   ) {}
 
-  async execute(id: string): Promise<AiAnalysisResponse> {
+  async execute(id: string): Promise<AiAnalysisResult> {
     const project = await this.projectRepository.findById(id);
     if (!project) {
       throw new HttpException({ title: 'Project Not Found', message: `Project with ID ${id} not found.` }, HttpStatus.NOT_FOUND);

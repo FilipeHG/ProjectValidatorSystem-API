@@ -11,7 +11,7 @@ import { createProjectSchema, CreateProjectDto, updateProjectSchema, UpdateProje
 import { ProjectStatus } from '../../domain/enums/project-status.enum';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
-import { ApiBody, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBody, ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 
 @ApiTags('Projects')
 @ApiBearerAuth()
@@ -47,8 +47,12 @@ export class ProjectsController {
   }
 
   @Get()
-  async findAll(@Query('page') page: string = '1', @Query('limit') limit: string = '10') {
-    return this.listProjectsUseCase.execute(Number(page), Number(limit));
+  @ApiQuery({ name: 'page', required: false, type: String })
+  @ApiQuery({ name: 'limit', required: false, type: String })
+  async findAll(@Query('page') page?: string, @Query('limit') limit?: string) {
+    const pageNum = page ? Number(page) : undefined;
+    const limitNum = limit ? Number(limit) : undefined;
+    return this.listProjectsUseCase.execute(pageNum, limitNum);
   }
 
   @Get(':id')
@@ -85,7 +89,11 @@ export class ProjectsController {
     schema: {
       type: 'object',
       properties: {
-        status: { type: 'string', example: 'Aprovado' }
+        status: { 
+          type: 'string', 
+          enum: Object.values(ProjectStatus),
+          example: ProjectStatus.APROVADO 
+        }
       }
     }
   })

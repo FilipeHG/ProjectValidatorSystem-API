@@ -1,4 +1,4 @@
-import { Projeto } from '../../domain/entities/projeto.entity';
+import { Projeto } from '../../../domain/entities/projeto.entity';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

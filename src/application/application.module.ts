@@ -9,7 +9,7 @@ import { GenerateProjectAnalysisUseCase } from './use-cases/generate-project-ana
 import { RiskCalculationService } from '../domain/services/risk-calculation.service';
 import { PROJECT_REPOSITORY } from './repositories/project.repository.interface';
 import { ProjectRepository } from '../infrastructure/repositories/project.repository';
-import { AiModule } from '../infrastructure/ai/ai.module';
+import { AiModule } from './ai/ai.module';
 
 const useCases = [
   CreateProjectUseCase,

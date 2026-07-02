@@ -49,11 +49,16 @@ export class ProjectRepository implements IProjectRepository {
     }
   }
 
-  async findAll(page: number, limit: number): Promise<{ data: Projeto[]; total: number }> {
+  async findAll(page?: number, limit?: number): Promise<{ data: Projeto[]; total: number }> {
     try {
-      const offset = (page - 1) * limit;
+      let query: any = this.db.select().from(projetos).orderBy(projetos.dtCriacao);
       
-      const rows = await this.db.select().from(projetos).limit(limit).offset(offset).orderBy(projetos.dtCriacao);
+      if (page !== undefined && limit !== undefined) {
+        const offset = (page - 1) * limit;
+        query = query.limit(limit).offset(offset);
+      }
+      
+      const rows = await query;
       const [{ count }] = await this.db.select({ count: sql<number>`count(*)` }).from(projetos);
       
       return {

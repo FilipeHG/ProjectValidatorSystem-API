@@ -2,8 +2,12 @@ import { z } from 'zod';
 
 export const envSchema = z.object({
   DATABASE_URL: z.string().url(),
-  JWT_SECRET: z.string().min(64),
-  GEMINI_API_KEY: z.string().min(1),
+  JWT_SECRET: z.string().min(10),
+  AI_PROVIDER: z.enum(['mock', 'openai', 'gemini']).default('mock'),
+  OPENAI_API_KEY: z.string().optional(),
+  OPENAI_MODEL: z.string().optional(),
+  GEMINI_API_KEY: z.string().optional(),
+  GEMINI_MODEL: z.string().optional(),
   PORT: z.string().optional().default('3000'),
 });
 

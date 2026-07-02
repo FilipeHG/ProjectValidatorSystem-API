@@ -1,6 +1,7 @@
 import { createInsertSchema } from 'drizzle-zod';
 import { projetos } from '../../infrastructure/database/schema';
 import { z } from 'zod';
+import { ProjectStatus } from '../../domain/enums/project-status.enum';
 
 const projectBaseSchema = createInsertSchema(projetos).pick({
   nome: true,
@@ -9,9 +10,11 @@ const projectBaseSchema = createInsertSchema(projetos).pick({
   orcamentoTotal: true,
   descricao: true,
 }).extend({
-  orcamentoTotal: z.number().positive(),
-  dataDeInicio: z.string(),
-  previsaoDeTermino: z.string(),
+  nome: z.string().trim().min(1, { message: "Nome não pode ser vazio" }),
+  descricao: z.string().trim().min(1, { message: "Descrição não pode ser vazia" }),
+  orcamentoTotal: z.number().positive({ message: "Orçamento deve ser maior que zero" }),
+  dataDeInicio: z.string().refine((val) => !isNaN(Date.parse(val)), { message: "Formato de data inválido" }),
+  previsaoDeTermino: z.string().refine((val) => !isNaN(Date.parse(val)), { message: "Formato de data inválido" }),
 }).strict();
 
 export const createProjectSchema = projectBaseSchema.refine(
@@ -38,6 +41,8 @@ export const updateProjectSchema = projectBaseSchema.partial().refine(
 export type UpdateProjectDto = z.infer<typeof updateProjectSchema>;
 
 export const changeStatusSchema = z.object({
-  status: createInsertSchema(projetos).shape.status,
+  status: z.nativeEnum(ProjectStatus, {
+    message: 'Status inválido. Valores permitidos: Em análise, Aprovado, Em andamento, Encerrado, Cancelado'
+  }),
 }).strict();
 export type ChangeStatusDto = z.infer<typeof changeStatusSchema>;
