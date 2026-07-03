@@ -270,7 +270,7 @@ Authorization: Bearer TOKEN
 Token utilizado para avaliação do projeto:
 
 ```text
-Bearer eyJhbGciOiJIUzI1NiIs...
+Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0IjoiUHJvamVjdFZhbGlkYXRvclN5c3RlbSIsInVzZXIiOiJGaWxpcGVIRyIsImVtYWlsIjoiZmlsaXBlaC5nb25jYWx2ZXNAZ21haWwuY29tIiwiaXNzIjoiUHJvamVjdFZhbGlkYXRvclN5c3RlbSIsImF1ZCI6IlByb2plY3RWYWxpZGF0b3JTeXN0ZW0iLCJleHAiOjQ5Mzg2MjQwMDB9.aSDt-Pn5ebLXdArccA1WMGemznJa_Vv7hkwLqh2LvwE
 ```
 
 Exceções:
